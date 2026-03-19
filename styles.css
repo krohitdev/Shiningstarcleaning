@@ -84,20 +84,44 @@ button {
   color: #e5f4ff;
 }
 
+.logo-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(245, 200, 76, 0.65);
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.6);
+}
+
 .logo-mark {
   width: 34px;
   height: 34px;
   border-radius: 999px;
-  background: conic-gradient(
+  /* background: conic-gradient(
       from 200deg,
       #f5c84c,
       #ffffff,
       #0e6e86,
       #f5c84c
-    );
+    ); */
+  background: url("./assets/logo.jpg") no-repeat center center;
   position: relative;
   box-shadow: 0 0 0 2px rgba(245, 200, 76, 0.65),
     0 12px 25px rgba(15, 23, 42, 0.6);
+}
+.logo-mark2 {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  /* background: conic-gradient(
+      from 200deg,
+      #f5c84c,
+      #ffffff,
+      #0e6e86,
+      #f5c84c
+    ); */
+  background: url("./assets/logo.jpg") no-repeat center center;
+  
 }
 
 .logo-mark::after {
@@ -284,6 +308,46 @@ button {
   width: 100%;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.typing-caret {
+  display: inline-block;
+  width: 0.12em;
+  height: 1.1em;
+  margin-left: 0.1em;
+  transform: translateY(0.1em);
+  background: var(--accent);
+  animation: caret-blink 0.9s step-end infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-caret {
+  /* helps keep caret visible while typing */
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing-caret {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 .hero-meta {
   display: flex;
   gap: 1.25rem;
@@ -361,6 +425,12 @@ button {
       rgba(6, 95, 70, 0.8)
     ),
     url("./assets/hero-secondary.jpg");
+}
+
+#hero-title {
+  display: block;
+  /* Reserve headline height so the subtitle doesn't jump while typing */
+  min-height: calc(1.1em * 2);
 }
 
 .section {
@@ -730,7 +800,8 @@ button {
     position: fixed;
     inset-inline: 1rem;
     top: 0.85rem;
-    padding: 3.6rem 1.2rem 1.2rem;
+    z-index: 55;
+    padding: 1.2rem 1.2rem;
     border-radius: 1.4rem;
     background: radial-gradient(
         circle at top left,
@@ -751,6 +822,47 @@ button {
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translateY(0);
+  }
+
+  .nav-toggle {
+    position: relative;
+    z-index: 70;
+  }
+
+  /* Hamburger -> close (X) animation */
+  .nav-toggle span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    transition: transform 0.18s ease-out, opacity 0.18s ease-out, top 0.18s
+      ease-out;
+  }
+
+  .nav-toggle span:nth-child(1) {
+    top: 0.72rem;
+  }
+
+  .nav-toggle span:nth-child(2) {
+    top: 1.02rem;
+  }
+
+  .nav-toggle span:nth-child(3) {
+    top: 1.32rem;
+  }
+
+  .nav-toggle-open span:nth-child(1) {
+    top: 1.02rem;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  .nav-toggle-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle-open span:nth-child(3) {
+    top: 1.02rem;
+    transform: translateX(-50%) rotate(-45deg);
   }
 
   .nav-list {

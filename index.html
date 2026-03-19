@@ -25,7 +25,13 @@
     <header class="site-header">
       <div class="container header-inner">
         <a href="#top" class="logo">
-          <div class="logo-mark" aria-hidden="true"></div>
+          <img
+            class="logo-img"
+            src="./assets/logo.jpg"
+            alt="Shining Star Cleaning logo"
+            width="34"
+            height="34"
+          />
           <span class="logo-text">
             <span class="logo-main">Shining Star</span>
             <span class="logo-sub">Cleaning</span>
@@ -39,10 +45,12 @@
         >
           <span></span>
           <span></span>
+          <span></span>
         </button>
 
         <nav class="nav" aria-label="Primary">
           <ul class="nav-list">
+            <li><a href="#top">Home</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#testimonials">Testimonials</a></li>
@@ -77,7 +85,18 @@
         <div class="container hero-grid">
           <div class="hero-copy">
             <p class="hero-kicker">Shiningstarcleaning.in</p>
-            <h1>Cleaning services that make your space shine.</h1>
+            <h1
+              id="hero-title"
+              data-fulltext="Cleaning services that make your space shine."
+              aria-label="Cleaning services that make your space shine.">
+              <span
+                id="hero-title-typed"
+                aria-hidden="true"
+              ></span>
+              <span class="typing-caret" aria-hidden="true"></span>
+              <span class="sr-only" id="hero-title-full"
+                >Cleaning services that make your space shine.</span>
+            </h1>
             <p class="hero-subtitle">
               Say goodbye to dirt and grime with our professional cleaning
               services for homes and businesses across the city.
@@ -409,6 +428,7 @@
       navToggle.addEventListener("click", () => {
         const isOpen = nav.classList.toggle("nav-open");
         navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        navToggle.classList.toggle("nav-toggle-open", isOpen);
       });
 
       nav.querySelectorAll("a").forEach((link) => {
@@ -416,12 +436,53 @@
           if (nav.classList.contains("nav-open")) {
             nav.classList.remove("nav-open");
             navToggle.setAttribute("aria-expanded", "false");
+            navToggle.classList.remove("nav-toggle-open");
           }
         });
       });
 
       const yearEl = document.getElementById("year");
       yearEl.textContent = new Date().getFullYear();
+
+      // Hero typing animation (vanilla JS, no dependencies).
+      const heroTitle = document.getElementById("hero-title");
+      const heroTyped = document.getElementById("hero-title-typed");
+      const heroCaret = document.querySelector(".typing-caret");
+      const fullText = heroTitle?.dataset?.fulltext || "";
+
+      if (heroTitle && heroTyped && fullText) {
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        if (reduceMotion) {
+          heroTyped.textContent = fullText;
+          if (heroCaret) heroCaret.remove();
+        } else {
+          let i = 0;
+          const baseDelay = 32; // ms per character
+          const step = () => {
+            i += 1;
+            heroTyped.textContent = fullText.slice(0, i);
+
+            if (i < fullText.length) {
+              const ch = fullText[i - 1] || "";
+              const extra =
+                ch === " "
+                  ? 18
+                  : /[.!?]/.test(ch)
+                    ? 55
+                    : 0;
+              window.setTimeout(step, baseDelay + extra);
+            } else {
+              // Typing finished: remove caret so the yellow line disappears.
+              if (heroCaret) heroCaret.remove();
+            }
+          };
+
+          window.setTimeout(step, 300);
+        }
+      }
     </script>
   </body>
 </html>
